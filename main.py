@@ -61,28 +61,40 @@ def get_neighbors(state):
 
 
 def BFS(initial_state):
+    #print(initial_state)
     frontier = queue.Queue()
     explored = set()
+    front_set = set()
     parent_map = {initial_state: initial_state}
     frontier.put(initial_state)
-    while frontier.not_empty:
+    front_set.add(initial_state)
+    x = 1
+    while frontier.qsize() > 0:
+        #print("size = ",frontier.qsize())
+        #print(x)
+        #x+=1
         state = frontier.get()
+        front_set.remove(state)
+        #print(state)
         explored.add(state)
         if isgoal(state):
             return parent_map
-
         neighbors = get_neighbors(state)
 
         for i in neighbors:
-            if i not in parent_map and i not in explored:
+            if i not in front_set and i not in explored:
+                #print("Stucked in 85")
                 parent_map[i] = state
                 frontier.put(i)
+                front_set.add(i)
 
     return False
 
 
-grid = "283164705"
+grid = "812043765"
 parent = BFS(grid)
+
+
 if(parent):
     state = "012345678"
     print(state)
@@ -92,4 +104,5 @@ if(parent):
     print(grid)
 else:
     print("Unsolvable")
+
 #print(BFS(grid))
