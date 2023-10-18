@@ -1,4 +1,5 @@
 from collections import deque
+import time
 
 def isgoal(state):
     return state == "012345678"
@@ -22,20 +23,21 @@ def get_neighbours(state):
         neighbours.append(swap(state, zero_index, temp))
     return neighbours
 
-
+loopCounter = 1
 def DFS(initial_state):
+    global loopCounter
     frontier = deque()
     explored = set()
     front_set = set()
     parent_map = {initial_state: initial_state}
     frontier.append(initial_state)
     front_set.add(initial_state)
-    x = 1
     while len(frontier) > 0:
         state = frontier.pop()
         front_set.remove(state)
         explored.add(state)
         if isgoal(state):
+            loopCounter +=1
             return parent_map
         neighbours = get_neighbours(state)
 
@@ -44,13 +46,17 @@ def DFS(initial_state):
                 parent_map[i] = state
                 frontier.append(i)
                 front_set.add(i)
+        loopCounter += 1
 
     return False
 
 
 # grid = "812043765" unsovlable
-grid = "123456780"
+grid = "012345687"
+current_time_ms = int(round(time.time() * 1000))
 parent = DFS(grid)
+updated_time_ms = int(round(time.time() * 1000))
+elapsed_time_ms = updated_time_ms - current_time_ms
 
 if(parent):
     state = "012345678"
@@ -61,3 +67,7 @@ if(parent):
     print(grid)
 else:
     print("Unsolvable")
+
+
+print("Elapsed time in milliseconds:", elapsed_time_ms)
+print(loopCounter)
