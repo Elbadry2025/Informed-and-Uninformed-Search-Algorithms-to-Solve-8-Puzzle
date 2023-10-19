@@ -1,4 +1,12 @@
 from collections import deque
+import time
+
+
+def printGrid(grid):
+    formatted_grid = "".join([grid[i:i + 3] + "\n" for i in range(0, len(grid), 3)])
+
+    # Print the formatted grid
+    print(formatted_grid, "")
 
 def isgoal(state):
     return state == "012345678"
@@ -27,22 +35,28 @@ def DFS(initial_state):
     frontier = deque()
     explored = set()
     front_set = set()
-    parent_map = {initial_state: initial_state}
-    frontier.append(initial_state)
+    parent_map = {initial_state: (initial_state, 0)}
+    frontier.append((initial_state, 0))
+    mx = 0
     front_set.add(initial_state)
     x = 1
     while len(frontier) > 0:
-        state = frontier.pop()
+        tuple_frontier = frontier.pop()
+        state = tuple_frontier[0]
+        cur_cost = tuple_frontier[1]
+
         front_set.remove(state)
         explored.add(state)
         if isgoal(state):
-            return parent_map
+            return explored, parent_map, mx
         neighbours = get_neighbours(state)
 
         for i in neighbours:
             if i not in front_set and i not in explored:
-                parent_map[i] = state
-                frontier.append(i)
+                new_cost = cur_cost + 1
+                mx = max(mx,new_cost)
+                parent_map[i] = (state, new_cost)
+                frontier.append((i, new_cost))
                 front_set.add(i)
 
     return False
@@ -50,14 +64,33 @@ def DFS(initial_state):
 
 # grid = "812043765" unsovlable
 grid = "123456780"
-parent = DFS(grid)
 
-if(parent):
-    state = "012345678"
-    print(state)
-    while parent[state] != grid:
-        print(parent[state])
-        state = parent[state]
-    print(grid)
-else:
+start_time = time.time() * 1000
+tuple_DFS = DFS(grid)
+end_time = time.time() * 1000
+running_time_ms = end_time - start_time
+print(f"Your function took {running_time_ms:.2f} milliseconds to run.")
+
+if not tuple_DFS :
     print("Unsolvable")
+else :
+    explore = tuple_DFS[0]
+    parent = tuple_DFS[1]
+    depth = tuple_DFS[2]
+    state = "012345678"
+    n = parent[state][1]
+    print("###  DFS  ### ")
+    print(f"Cost of this solution is : {n}")
+    print(f"Search Depth ; {depth}")
+    print(f"step {n}")
+    n -= 1
+    printGrid(state)
+    while parent[state][0] != grid:
+        state = parent[state][0]
+        print(f"step {n}")
+        n -= 1
+        printGrid(state)
+        state = parent[state][0]
+
+    print(f"step {n}")
+    printGrid(grid)
