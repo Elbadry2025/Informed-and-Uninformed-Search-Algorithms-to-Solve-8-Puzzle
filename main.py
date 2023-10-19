@@ -21,24 +21,25 @@ def swap(state, zero, j):
 
 
 def get_neighbors(state):
-    neighbors = []
+    neighbours = []
     zero_index = state.index('0')
-    possible_moves = [-3, 3, -1, 1]
+    possible_neigbours = [1, -1, 3, -3]
 
-    for move in possible_moves:
-        new_index = zero_index + move
-
-        if 0 <= new_index < len(state):
-            neighbors.append(swap(state, zero_index, new_index))
-
-    return neighbors
+    for i in possible_neigbours:
+        temp = zero_index
+        temp += i
+        if (zero_index % 3 == 2 and i == 1) or (zero_index % 3 == 0 and i == -1) or (zero_index > 5 and i == 3) or (
+                zero_index < 3 and i == -3):
+            continue
+        neighbours.append(swap(state, zero_index, temp))
+    return neighbours
 
 
 def BFS(initial_state):
     frontier = queue.Queue()
     explored = set()
     front_set = set()
-    parent_map = {initial_state: initial_state}
+    parent_map = {initial_state: (initial_state, 0)}
     frontier.put((initial_state, 0))
     front_set.add(initial_state)
     while frontier.qsize() > 0:
@@ -53,15 +54,16 @@ def BFS(initial_state):
 
         for i in neighbors:
             if i not in front_set and i not in explored:
-                parent_map[i] = (state, cur_cost+1)
-                frontier.put((i, cur_cost+1))
+                new_cost = cur_cost + 1
+                parent_map[i] = (state, new_cost)
+                frontier.put((i, new_cost))
                 front_set.add(i)
 
     return False
 
 
 
-grid = "123045678"
+grid = "123456780"
 start_time = time.time() * 1000
 tuple_BFS = BFS(grid)
 end_time = time.time() * 1000
@@ -85,7 +87,6 @@ else :
         print(f"step {n}")
         n -= 1
         printGrid(state)
-        state = parent[state][0]
 
     print(f"step {n}")
     printGrid(grid)
