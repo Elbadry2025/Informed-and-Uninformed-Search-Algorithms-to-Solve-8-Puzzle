@@ -1,5 +1,6 @@
 import unittest
 import main
+import dfs
 
 
 class TestMethods(unittest.TestCase):
@@ -8,7 +9,7 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(main.swap('123045678', 0, 1), '213045678')
 
     def test_getNeighbours(self):
-        self.assertEqual(main.get_neighbors('123045678'),['023145678', '123405678', '123645078'])
+        self.assertEqual(main.get_neighbors('123045678'),['123405678', '123645078', '023145678'])
 
     def test_getNeighbours1(self):
         self.assertEqual(main.get_neighbors('012345678'), ['102345678', '312045678'])
@@ -21,3 +22,8 @@ class TestMethods(unittest.TestCase):
 
     def test_BFS2(self):
         self.assertEqual(main.BFS('283164705'), False)
+
+
+    # DFS
+    def test_DFS_getNeighbours(self):
+        self.assertEqual(dfs.get_neighbours('123045678'),['123405678', '123645078', '023145678'])

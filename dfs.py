@@ -51,10 +51,10 @@ def DFS(initial_state):
             return explored, parent_map, mx
         neighbours = get_neighbours(state)
 
+        new_cost = cur_cost + 1
+        mx = max(mx, new_cost)
         for i in neighbours:
             if i not in front_set and i not in explored:
-                new_cost = cur_cost + 1
-                mx = max(mx,new_cost)
                 parent_map[i] = (state, new_cost)
                 frontier.append((i, new_cost))
                 front_set.add(i)
@@ -81,7 +81,7 @@ else :
     n = parent[state][1]
     print("###  DFS  ### ")
     print(f"Cost of this solution is : {n}")
-    print(f"Search Depth ; {depth}")
+    print(f"Search Depth : {depth}")
     print(f"step {n}")
     n -= 1
     printGrid(state)
@@ -90,7 +90,6 @@ else :
         print(f"step {n}")
         n -= 1
         printGrid(state)
-        state = parent[state][0]
 
     print(f"step {n}")
     printGrid(grid)
