@@ -1,6 +1,7 @@
 import queue
 
 
+
 def printGrid(grid):
     for i in range(9):
         print(grid[i],end="")
@@ -8,9 +9,9 @@ def printGrid(grid):
             print("\n")
     print("\n")
 
+
 def isgoal(state):
     return state == "012345678"
-
 
 def swap(state, zero, j):
     state_list = list(state)
@@ -21,8 +22,9 @@ def swap(state, zero, j):
 
 
 def get_neighbors(state):
-    neighbors = []
+    neighbours = []
     zero_index = state.index('0')
+
     possible_moves = [-1,-3,1,3]
 
     for move in possible_moves:
@@ -36,9 +38,11 @@ def get_neighbors(state):
     return neighbors
 
 
+
 def BFS(initial_state):
     frontier = queue.Queue()
     explored = set()
+
     #front_set = set()
     parent_map = {initial_state: (initial_state,0)}
     frontier.put(initial_state)
@@ -57,7 +61,9 @@ def BFS(initial_state):
                 frontier.put(i)
                 #front_set.add(i)
 
+
     return False
+
 
 
 grid = "806547231"
@@ -78,6 +84,10 @@ print(n)
 #     print("Steps = ",x)
 # else:
 #     print("Unsolvable")
+
+
+
+
 
 
 
