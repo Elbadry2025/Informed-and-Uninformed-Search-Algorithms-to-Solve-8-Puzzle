@@ -22,7 +22,7 @@ def swap(state, zero, j):
 
 
 def get_neighbors(state):
-    neighbours = []
+    neighbors = []
     zero_index = state.index('0')
 
     possible_moves = [-1,-3,1,3]
