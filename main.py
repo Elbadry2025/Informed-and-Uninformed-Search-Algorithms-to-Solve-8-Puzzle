@@ -60,7 +60,7 @@ def BFS(initial_state):
     return False
 
 
-grid = "647850321"
+grid = "806547231"
 parent = BFS(grid)
 
 if parent:
