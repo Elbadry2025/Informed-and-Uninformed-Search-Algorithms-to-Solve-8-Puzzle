@@ -1,6 +1,6 @@
 import math
 from queue import PriorityQueue
-import main
+#import main
 import time
 
 
@@ -20,18 +20,20 @@ def swap(state, zero, j):
 
 
 def get_neighbors(state):
-    neighbours = []
+    neighbors = []
     zero_index = state.index('0')
-    possible_neigbours = [1, -1, 3, -3]
 
-    for i in possible_neigbours:
-        temp = zero_index
-        temp += i
-        if (zero_index % 3 == 2 and i == 1) or (zero_index % 3 == 0 and i == -1) or (zero_index > 5 and i == 3) or (
-                zero_index < 3 and i == -3):
+    possible_moves = [-1,-3,1,3]
+
+    for move in possible_moves:
+        new_index = zero_index + move
+
+        if (zero_index % 3 == 2 and move == 1) or (zero_index % 3 == 0 and move == -1) or (new_index < 0) or (new_index >= len(state)):
             continue
-        neighbours.append(swap(state, zero_index, temp))
-    return neighbours
+
+        neighbors.append(swap(state, zero_index, new_index))
+
+    return neighbors
 
 def getInvCount(arr):
     inv_count = 0
@@ -116,39 +118,39 @@ def A_Star(initial_state, heuristic):
 
     goal = "012345678"
     frontier = PriorityQueue()
-    current_cost = 0
+    #current_cost = 0
     f_frontier = set()
     explored = set()
-    path = set()
-    Parent_map = {initial_state: (initial_state, current_cost + heur.distance(initial_state))}
-    frontier.put((current_cost+heur.distance(initial_state), initial_state))
+    #path = set()
+    Parent_map = {initial_state: (initial_state, 0)}
+    frontier.put((0+heur.distance(initial_state), initial_state))
     f_frontier.add(initial_state)
-    path.add(initial_state)
-    while not frontier.empty():
+    #path.add(initial_state)
+    while not (frontier.empty()):
         state = frontier.get()
         f_frontier.remove(state[1])
         explored.add(state[1])
-        path.add(state[1])
+        #path.add(state[1])
         if state[1] == goal:
             # print('Success')
             # print(len(explored))
-            return explored, Parent_map, current_cost, path
+            return Parent_map, len(explored)
 
         neighbours = get_neighbors(state[1])
-        current_cost += 1
+        #current_cost += 1
         for i in neighbours:
-            path.add(i)
+      #      path.add(i)
             print("##############")
-            main.printGrid(i)
+            printGrid(i)
 
             if not (i in explored) and not (i in f_frontier):
-                frontier.put((current_cost+heur.distance(i), i))
+                frontier.put((Parent_map[state[1]][1]+1+heur.distance(i), i))
                 f_frontier.add(i)
-                Parent_map[i] = (state, current_cost+heur.distance(i))
+                Parent_map[i] = (state, Parent_map[state[1]][1]+1)
             elif i in f_frontier:
-                if (current_cost + heur.distance(i)) < Parent_map[i][1]:
-                    Parent_map[i] = (state, current_cost+heur.distance(i))
-                    frontier.put((current_cost+heur.distance(i), i))
+                if (Parent_map[state[1]][1]+1+ heur.distance(i)) < Parent_map[i][1]:
+                    Parent_map[i] = (state[1], Parent_map[state[1]][1]+1)
+                    frontier.put((Parent_map[state[1]][1]+1+heur.distance(i), i))
                     f_frontier.add(i)
     return False
 
@@ -171,23 +173,26 @@ print(f"Your function took {running_time_ms:.2f} milliseconds to run.")
 if not tuple_A_Star :
     print("Unsolvable")
 else :
-    explore = tuple_A_Star[0]
-    parent = tuple_A_Star[1]
+    explore = tuple_A_Star[1]
+    parent = tuple_A_Star[0]
     state = "012345678"
-    n = tuple_A_Star[2]
-    path = tuple_A_Star[3]
+    #n = tuple_A_Star[2]
+    #path = tuple_A_Star[3]
 
     print("###  A_Star  ### ")
-    print(f"Search Depth && Cost of this solution is : {n}")
-    print(f"step {n}")
-    n -= 1
-    main.printGrid(state)
+    #print(f"Search Depth && Cost of this solution is : {n}")
+    #print(f"step {n}")
+    #n -= 1
+    printGrid(state)
+    x = 0
     while parent[state][0][1] != grid:
+        x+=1
         state = parent[state][0][1]
-        print(f"step {n}")
-        n -= 1
-        main.printGrid(state)
+        print("step = ",x)
+        printGrid(state)
+    #print("n = ",n)
+    print("#explored = ",explore)
 
-    print(f"step {n}")
-    main.printGrid(grid)
+    #print(f"step {n}")
+    printGrid(grid)
 

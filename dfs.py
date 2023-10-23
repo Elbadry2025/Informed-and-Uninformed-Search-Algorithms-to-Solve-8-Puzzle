@@ -22,7 +22,7 @@ def get_neighbors(state):
     neighbors = []
     zero_index = state.index('0')
 
-    possible_moves = [3,1,-3,-1]
+    possible_moves = [-1,-3,1,3]
 
     for move in possible_moves:
         new_index = zero_index + move
@@ -57,7 +57,7 @@ def DFS(initial_state):
 
         #new_cost = cur_cost + 1
         #mx = max(mx, new_cost)
-        for i in neighbours:
+        for i in reversed(neighbours):
             if i not in parent_map and i not in explored:
                 parent_map[i] = (state, parent_map[state][1]+1)
                 frontier.append(i)
