@@ -22,7 +22,7 @@ def swap(state, zero, j):
 
 
 def get_neighbors(state):
-    neighbours = []
+    neighbors = []
     zero_index = state.index('0')
 
     possible_moves = [-1,-3,1,3]
@@ -71,19 +71,19 @@ parent,n = BFS(grid)
 
 print(n)
 
-# if parent:
-#     x = 0
-#     state = "012345678"
-#     printGrid(state)
-#     while parent[state][0] != grid:
-#         x+=1
-#         printGrid(parent[state][0])
-#         print("depth = ",parent[state][1])
-#         state = parent[state][0]
-#     printGrid(grid)
-#     print("Steps = ",x)
-# else:
-#     print("Unsolvable")
+if parent:
+    x = 0
+    state = "012345678"
+    printGrid(state)
+    while parent[state][0] != grid:
+        x+=1
+        printGrid(parent[state][0])
+        print("depth = ",parent[state][1])
+        state = parent[state][0]
+    printGrid(grid)
+    print("Steps = ",x)
+else:
+    print("Unsolvable")
 
 
 
