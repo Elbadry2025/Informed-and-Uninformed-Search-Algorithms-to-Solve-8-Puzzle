@@ -108,7 +108,6 @@ class EuclideanDistance:
 
 
 def A_Star(initial_state, heuristic):
-    print("### A Star ###")
     g = 0
     if heuristic:
         heur = ManhattanDistance()
