@@ -110,42 +110,38 @@ class EuclideanDistance:
 
 
 def A_Star(initial_state, heuristic):
+    if not main.isSolvable(initial_state):
+        return False
     g = 0
     if heuristic:
         heur = ManhattanDistance()
     else:
         heur = EuclideanDistance()
-
     goal = "012345678"
+
     frontier = PriorityQueue()
-    #current_cost = 0
     f_frontier = set()
     explored = set()
-    #path = set()
     Parent_map = {initial_state: (initial_state, 0)}
+
+    f_frontier.add(initial_state)
     frontier.put((0+heur.distance(initial_state), initial_state))
     f_frontier.add(initial_state)
-    #path.add(initial_state)
+
     while not (frontier.empty()):
         state = frontier.get()
+
+        if state[1] in explored:
+            continue
         f_frontier.remove(state[1])
         explored.add(state[1])
-        #path.add(state[1])
+
         if state[1] == goal:
-            # print('Success')
-            # print(len(explored))
-            return Parent_map, len(explored)
+            return Parent_map, len(explored), True
 
         neighbours = main.get_neighbors(state[1])
-        print(f"neigbours of:{state[1]}:\n")
-        for j in neighbours:
-            print(j+" ",end=""+"\n\n")
-        #current_cost += 1
-        for i in neighbours:
-      #      path.add(i)
-      #       print("##############")
-      #       main.printGrid(i)
 
+        for i in neighbours:
             if not (i in explored) and not (i in f_frontier):
                 frontier.put((Parent_map[state[1]][1]+1+heur.distance(i), i))
                 f_frontier.add(i)
@@ -157,45 +153,44 @@ def A_Star(initial_state, heuristic):
                     f_frontier.add(i)
     return False
 
+############################################################### Driver Code ###########################################################
 
-
-grid = "236107845"
-heuristic = int(input("Enter 0 for manhattan distance or 1 for Euclidean Distance"))
-if heuristic:
-    start_time = time.time() * 1000
-    tuple_A_Star = A_Star(grid, False)
-    end_time = time.time() * 1000
-    running_time_ms = end_time - start_time
-else:
-    start_time = time.time() * 1000
-    tuple_A_Star = A_Star(grid, True)
-    end_time = time.time() * 1000
-    running_time_ms = end_time - start_time
-print(f"Your function took {running_time_ms:.2f} milliseconds to run.")
-
-if not tuple_A_Star :
-    print("Unsolvable")
-else :
-    explore = tuple_A_Star[1]
-    parent = tuple_A_Star[0]
-    state = "012345678"
-    #n = tuple_A_Star[2]
-    #path = tuple_A_Star[3]
-
-    print("###  A_Star  ### ")
-    #print(f"Search Depth && Cost of this solution is : {n}")
-    #print(f"step {n}")
-    #n -= 1
-    main.printGrid(state)
-    x = 0
-    while parent[state][0][1] != grid:
-        x+=1
-        state = parent[state][0][1]
-        print("step = ",x)
-        main.printGrid(state)
-    #print("n = ",n)
-    print("#explored = ",explore)
-
-    #print(f"step {n}")
-    main.printGrid(grid)
+# grid = "145678023"
+# heuristic = int(input("Enter 0 for Euclidean Distance or 1 for Manhattan Distance"))
+# if heuristic:
+#     start_time = time.time() * 1000
+#     tuple_A_Star = A_Star(grid, False)
+#     end_time = time.time() * 1000
+#     running_time_ms = end_time - start_time
+# else:
+#     start_time = time.time() * 1000
+#     tuple_A_Star = A_Star(grid, True)
+#     end_time = time.time() * 1000
+#     running_time_ms = end_time - start_time
+# print(f"Your function took {running_time_ms:.2f} milliseconds to run.")
+#
+# if not tuple_A_Star :
+#     print("Unsolvable")
+# else :
+#     explore = tuple_A_Star[1]
+#     parent = tuple_A_Star[0]
+#     state = "012345678"
+#     #n = tuple_A_Star[2]
+#     #path = tuple_A_Star[3]
+#
+#     print("###  A_Star  ### ")
+#     #print(f"Search Depth && Cost of this solution is : {n}")
+#     #print(f"step {n}")
+#     #n -= 1
+#     main.printGrid(state)
+#     x = 0
+#     while parent[state][0][1] != grid:
+#         x+=1
+#         state = parent[state][0][1]
+#         print("step = ",x)
+#         main.printGrid(state)
+#     x+=1
+#     print("step = ", x)
+#     main.printGrid(grid)
+#     print("#explored = ", explore)
 
