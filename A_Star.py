@@ -126,11 +126,12 @@ def A_Star(initial_state, heuristic):
     frontier.put((0+heur.distance(initial_state), initial_state))
     f_frontier.add(initial_state)
     #path.add(initial_state)
-    while not (frontier.empty()):
+    while frontier.qsize() > 0:
         state = frontier.get()
-        f_frontier.remove(state[1])
         if(state in explored):
             continue
+
+
         explored.add(state[1])
         #path.add(state[1])
         if state[1] == goal:
@@ -140,8 +141,8 @@ def A_Star(initial_state, heuristic):
 
         neighbours = main.get_neighbors(state[1])
         #print(f"neigbours of:{state[1]}:\n")
-        for j in neighbours:
-            print(j+" ",end=""+"\n\n")
+        # for j in neighbours:
+        #     print(j+" ",end=""+"\n\n")
         #current_cost += 1
         for i in neighbours:
       #      path.add(i)

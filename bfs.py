@@ -6,27 +6,25 @@ def BFS(initial_state):
     frontier = queue.Queue()
     explored = set()
 
-    #front_set = set()
-    parent_map = {initial_state: (initial_state,0)}
+    # front_set = set()
+    parent_map = {initial_state: (initial_state, 0)}
     frontier.put(initial_state)
-    #front_set.add(initial_state)
+    # front_set.add(initial_state)
     while frontier.qsize() > 0:
         state = frontier.get()
-        #front_set.remove(state)
+        # front_set.remove(state)
         explored.add(state)
         if main.isgoal(state):
-            return parent_map,len(explored)
+            return parent_map, len(explored)
         neighbors = main.get_neighbors(state)
 
         for i in neighbors:
             if i not in parent_map and i not in explored:
-                parent_map[i] = (state,parent_map[state][1]+1)
+                parent_map[i] = (state, parent_map[state][1] + 1)
                 frontier.put(i)
-                #front_set.add(i)
+                # front_set.add(i)
 
-
-    return False
-
+    return False, False
 
 # grid = "806547231"
 # parent,n = BFS(grid)
