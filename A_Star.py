@@ -128,9 +128,9 @@ def A_Star(initial_state, heuristic):
     #path.add(initial_state)
     while frontier.qsize() > 0:
         state = frontier.get()
-        if(state in explored):
+        if state[1] in explored:
             continue
-
+        f_frontier.remove(state[1])
 
         explored.add(state[1])
         #path.add(state[1])
