@@ -110,44 +110,51 @@ class EuclideanDistance:
 
 
 def A_Star(initial_state, heuristic):
-    if not main.isSolvable(initial_state):
-        return False
     g = 0
     if heuristic:
         heur = ManhattanDistance()
     else:
         heur = EuclideanDistance()
-    goal = "012345678"
 
+    goal = "012345678"
     frontier = PriorityQueue()
+    #current_cost = 0
     f_frontier = set()
     explored = set()
+    #path = set()
     Parent_map = {initial_state: (initial_state, 0)}
-
-    f_frontier.add(initial_state)
     frontier.put((0+heur.distance(initial_state), initial_state))
     f_frontier.add(initial_state)
-
-    while not (frontier.empty()):
+    #path.add(initial_state)
+    while frontier.qsize() > 0:
         state = frontier.get()
-
-        if state[1] in explored:
+        if(state in explored):
             continue
-        f_frontier.remove(state[1])
-        explored.add(state[1])
 
+
+        explored.add(state[1])
+        #path.add(state[1])
         if state[1] == goal:
-            return Parent_map, len(explored), True
+            # print('Success')
+            # print(len(explored))
+            return Parent_map, len(explored)
 
         neighbours = main.get_neighbors(state[1])
-
+        #print(f"neigbours of:{state[1]}:\n")
+        # for j in neighbours:
+        #     print(j+" ",end=""+"\n\n")
+        #current_cost += 1
         for i in neighbours:
+      #      path.add(i)
+      #       print("##############")
+      #       main.printGrid(i)
+
             if not (i in explored) and not (i in f_frontier):
                 frontier.put((Parent_map[state[1]][1]+1+heur.distance(i), i))
                 f_frontier.add(i)
-                Parent_map[i] = (state, Parent_map[state[1]][1]+1)
+                Parent_map[i] = (state[1], Parent_map[state[1]][1]+1)
             elif i in f_frontier:
-                if (Parent_map[state[1]][1]+1+ heur.distance(i)) < Parent_map[i][1]:
+                if (Parent_map[state[1]][1]+1) < Parent_map[i][1]:
                     Parent_map[i] = (state[1], Parent_map[state[1]][1]+1)
                     frontier.put((Parent_map[state[1]][1]+1+heur.distance(i), i))
                     f_frontier.add(i)
@@ -155,10 +162,8 @@ def A_Star(initial_state, heuristic):
 
 
 
-############################################################### Driver Code ###########################################################
-
-# grid = "145678023"
-# heuristic = int(input("Enter 0 for Euclidean Distance or 1 for Manhattan Distance"))
+# grid = "236107845"
+# heuristic = int(input("Enter 0 for manhattan distance or 1 for Euclidean Distance"))
 # if heuristic:
 #     start_time = time.time() * 1000
 #     tuple_A_Star = A_Star(grid, False)
@@ -191,8 +196,9 @@ def A_Star(initial_state, heuristic):
 #         state = parent[state][0][1]
 #         print("step = ",x)
 #         main.printGrid(state)
-#     x+=1
-#     print("step = ", x)
+#     #print("n = ",n)
+#     print("#explored = ",explore)
+#
+#     #print(f"step {n}")
 #     main.printGrid(grid)
-#     print("#explored = ", explore)
 
