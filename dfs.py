@@ -65,22 +65,22 @@ def DFS(initial_state):
 
     return False
 
-
-grid = "806547231"
-parent,n = DFS(grid)
-
-#print(n)
-
-if parent:
-    x = 0
-    state = "012345678"
-    main.printGrid(state)
-    while parent[state][0] != grid:
-        x+=1
-        main.printGrid(parent[state][0])
-        print("depth = ",parent[state][1])
-        state = parent[state][0]
-    main.printGrid(grid)
-    print("Steps = ",x)
-else:
-    print("Unsolvable")
+#
+# grid = "806547231"
+# parent,n = DFS(grid)
+#
+# #print(n)
+#
+# if parent:
+#     x = 0
+#     state = "012345678"
+#     main.printGrid(state)
+#     while parent[state][0] != grid:
+#         x+=1
+#         main.printGrid(parent[state][0])
+#         print("depth = ",parent[state][1])
+#         state = parent[state][0]
+#     main.printGrid(grid)
+#     print("Steps = ",x)
+# else:
+#     print("Unsolvable")
