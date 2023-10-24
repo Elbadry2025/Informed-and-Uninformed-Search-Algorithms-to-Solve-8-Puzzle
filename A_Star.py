@@ -129,6 +129,8 @@ def A_Star(initial_state, heuristic):
     while not (frontier.empty()):
         state = frontier.get()
         f_frontier.remove(state[1])
+        if(state in explored):
+            continue
         explored.add(state[1])
         #path.add(state[1])
         if state[1] == goal:
@@ -137,7 +139,7 @@ def A_Star(initial_state, heuristic):
             return Parent_map, len(explored)
 
         neighbours = main.get_neighbors(state[1])
-        print(f"neigbours of:{state[1]}:\n")
+        #print(f"neigbours of:{state[1]}:\n")
         for j in neighbours:
             print(j+" ",end=""+"\n\n")
         #current_cost += 1
@@ -149,9 +151,9 @@ def A_Star(initial_state, heuristic):
             if not (i in explored) and not (i in f_frontier):
                 frontier.put((Parent_map[state[1]][1]+1+heur.distance(i), i))
                 f_frontier.add(i)
-                Parent_map[i] = (state, Parent_map[state[1]][1]+1)
+                Parent_map[i] = (state[1], Parent_map[state[1]][1]+1)
             elif i in f_frontier:
-                if (Parent_map[state[1]][1]+1+ heur.distance(i)) < Parent_map[i][1]:
+                if (Parent_map[state[1]][1]+1) < Parent_map[i][1]:
                     Parent_map[i] = (state[1], Parent_map[state[1]][1]+1)
                     frontier.put((Parent_map[state[1]][1]+1+heur.distance(i), i))
                     f_frontier.add(i)
@@ -159,43 +161,43 @@ def A_Star(initial_state, heuristic):
 
 
 
-grid = "236107845"
-heuristic = int(input("Enter 0 for manhattan distance or 1 for Euclidean Distance"))
-if heuristic:
-    start_time = time.time() * 1000
-    tuple_A_Star = A_Star(grid, False)
-    end_time = time.time() * 1000
-    running_time_ms = end_time - start_time
-else:
-    start_time = time.time() * 1000
-    tuple_A_Star = A_Star(grid, True)
-    end_time = time.time() * 1000
-    running_time_ms = end_time - start_time
-print(f"Your function took {running_time_ms:.2f} milliseconds to run.")
-
-if not tuple_A_Star :
-    print("Unsolvable")
-else :
-    explore = tuple_A_Star[1]
-    parent = tuple_A_Star[0]
-    state = "012345678"
-    #n = tuple_A_Star[2]
-    #path = tuple_A_Star[3]
-
-    print("###  A_Star  ### ")
-    #print(f"Search Depth && Cost of this solution is : {n}")
-    #print(f"step {n}")
-    #n -= 1
-    main.printGrid(state)
-    x = 0
-    while parent[state][0][1] != grid:
-        x+=1
-        state = parent[state][0][1]
-        print("step = ",x)
-        main.printGrid(state)
-    #print("n = ",n)
-    print("#explored = ",explore)
-
-    #print(f"step {n}")
-    main.printGrid(grid)
+# grid = "236107845"
+# heuristic = int(input("Enter 0 for manhattan distance or 1 for Euclidean Distance"))
+# if heuristic:
+#     start_time = time.time() * 1000
+#     tuple_A_Star = A_Star(grid, False)
+#     end_time = time.time() * 1000
+#     running_time_ms = end_time - start_time
+# else:
+#     start_time = time.time() * 1000
+#     tuple_A_Star = A_Star(grid, True)
+#     end_time = time.time() * 1000
+#     running_time_ms = end_time - start_time
+# print(f"Your function took {running_time_ms:.2f} milliseconds to run.")
+#
+# if not tuple_A_Star :
+#     print("Unsolvable")
+# else :
+#     explore = tuple_A_Star[1]
+#     parent = tuple_A_Star[0]
+#     state = "012345678"
+#     #n = tuple_A_Star[2]
+#     #path = tuple_A_Star[3]
+#
+#     print("###  A_Star  ### ")
+#     #print(f"Search Depth && Cost of this solution is : {n}")
+#     #print(f"step {n}")
+#     #n -= 1
+#     main.printGrid(state)
+#     x = 0
+#     while parent[state][0][1] != grid:
+#         x+=1
+#         state = parent[state][0][1]
+#         print("step = ",x)
+#         main.printGrid(state)
+#     #print("n = ",n)
+#     print("#explored = ",explore)
+#
+#     #print(f"step {n}")
+#     main.printGrid(grid)
 
