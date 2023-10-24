@@ -42,6 +42,7 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(A_Star.A_Star("123456870",False),False)
 
 
+
     # Compare between Manhattan and Euclidean
     #Solvable State with Euclidean Distance
     def test_A_Star1(self):
