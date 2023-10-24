@@ -28,7 +28,7 @@ def read_text_boxes():
 
 window = tk.Tk()
 window.title("8 Puzzle Game")
-window.geometry("900x700")
+window.geometry("900x900")
 window.config(bg="cyan")
 # Create a frame to hold the text boxes
 frame = tk.Frame(window)
@@ -40,7 +40,7 @@ label.pack()
 # Create the 3x3 grid of text boxes
 textBoxes = []
 for i in range(9):
-    textBox = tk.Entry(frame, width=5, borderwidth= 1, relief= "solid", font=("Arial", 12))
+    textBox = tk.Entry(frame, width=7, borderwidth= 1, relief= "solid", font=("Arial", 24))
     textBox.insert(0, f"{i}")
     textBoxes.append(textBox)
     textBox.grid(row=i // 3, column=i % 3)
@@ -50,7 +50,7 @@ method.set("Choose search method")  # Set the default method
 dropdown = tk.OptionMenu(window, method, "BFS", "DFS", "A* Euclidean", "A* Manhattan")
 dropdown.pack(pady=25)
 
-solve_button = tk.Button(window, text="Solve", font=("Arial", 12))
+solve_button = tk.Button(window, text="Solve", font=("Arial", 24))
 solve_button.pack(pady=20)
 
 def solve():
@@ -89,7 +89,7 @@ def solve():
         ans_frame.pack(pady=10)
         answer = []
         for i in range(9):
-            label = tk.Label(ans_frame, text=f"{grid[i]}",width=4, height=2, font=("Arial", 15)
+            label = tk.Label(ans_frame, text=f"{grid[i]}",width=4, height=2, font=("Arial", 25)
                              , borderwidth=4 , relief="solid")
             answer.append(label)
             label.grid(row=i // 3, column=i % 3)
