@@ -112,9 +112,9 @@ class EuclideanDistance:
 def A_Star(initial_state, heuristic):
     g = 0
     if heuristic:
-        heur = EuclideanDistance()
-    else:
         heur = ManhattanDistance()
+    else:
+        heur = EuclideanDistance()
 
     goal = "012345678"
     frontier = PriorityQueue()
