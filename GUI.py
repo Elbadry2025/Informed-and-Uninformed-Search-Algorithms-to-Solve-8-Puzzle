@@ -11,7 +11,10 @@ def printNext(stack, stack2, answer):
         stack2.append(state)
         if stack:
             for i in range(9):
-                answer[i].config(text=stack[-1][i])
+                if(stack[-1][i] == "0"):
+                    answer[i].config(text = " ")
+                else:
+                    answer[i].config(text=stack[-1][i])
 def printBack(stack, stack2, answer):
     if not stack:
         stack.append(stack2.pop())
@@ -19,7 +22,10 @@ def printBack(stack, stack2, answer):
         state = stack2.pop()
         stack.append(state)
         for i in range(9):
-            answer[i].config(text=state[i])
+            if(state[i] == "0"):
+                answer[i].config(text=" ")
+            else:
+                answer[i].config(text=state[i])
 
 def read_text_boxes():
     values = [textBoxes[i].get() for i in range(9)]
@@ -98,8 +104,12 @@ def solve():
         ans_frame.pack(pady=10)
         answer = []
         for i in range(9):
-            label = tk.Label(ans_frame, text=f"{grid[i]}",width=4, height=2, font=("Arial", 20)
-                             , borderwidth=4 , relief="solid")
+            if(grid[i] == "0"):
+                label = tk.Label(ans_frame, text="", width=4, height=2, font=("Arial", 20)
+                                 , borderwidth=4, relief="solid")
+            else:
+                label = tk.Label(ans_frame, text=f"{grid[i]}",width=4, height=2, font=("Arial", 20)
+                                 , borderwidth=4 , relief="solid")
             answer.append(label)
             label.grid(row=i // 3, column=i % 3)
 
@@ -109,8 +119,7 @@ def solve():
         while state != grid:
             state = parent[state][0]
             stack.append(state)
-        for i in range(9):
-            answer[i].config(text=grid[i])
+
 
         button1.pack(pady = 10)
         button2.pack()
