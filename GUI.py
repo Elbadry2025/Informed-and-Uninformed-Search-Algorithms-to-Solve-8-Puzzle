@@ -61,9 +61,9 @@ def solve():
     elif method.get() == "DFS":
         result = dfs.DFS(grid)
     elif method.get() == "A* Euclidean":
-        result = A_Star.A_Star(grid, True)
-    else:
         result = A_Star.A_Star(grid, False)
+    else:
+        result = A_Star.A_Star(grid, True)
     end_time = time.time() * 1000
 
     if not result:
