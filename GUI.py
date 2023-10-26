@@ -40,7 +40,7 @@ label.pack()
 # Create the 3x3 grid of text boxes
 textBoxes = []
 for i in range(9):
-    textBox = tk.Entry(frame, width=7, borderwidth= 1, relief= "solid", font=("Arial", 24))
+    textBox = tk.Entry(frame, width=7, borderwidth= 1, relief= "solid", font=("Arial", 20))
     textBox.insert(0, f"{i}")
     textBoxes.append(textBox)
     textBox.grid(row=i // 3, column=i % 3)
@@ -50,8 +50,14 @@ method.set("Choose search method")  # Set the default method
 dropdown = tk.OptionMenu(window, method, "BFS", "DFS", "A* Euclidean", "A* Manhattan")
 dropdown.pack(pady=25)
 
-solve_button = tk.Button(window, text="Solve", font=("Arial", 24))
+solve_button = tk.Button(window, text="Solve", font=("Arial", 20))
 solve_button.pack(pady=20)
+
+stats = tk.Label(window)
+ans_frame = tk.Frame(window, borderwidth=2, relief="solid", bg="red")
+button1 = tk.Button(window, text="Next", font=("Arial", 12))
+button2 = tk.Button(window, text="Back", font=("Arial", 12))
+
 
 def solve():
     grid = read_text_boxes()
@@ -67,7 +73,12 @@ def solve():
     end_time = time.time() * 1000
 
     if not result:
-        print("Unsolvable")
+        print("unsolvable")
+        stats.config(text = "Unsolvable", font={"arial", 15})
+        stats.pack()
+        ans_frame.pack_forget()
+        button1.pack_forget()
+        button2.pack_forget()
     else:
         print("Time taken:", end_time - start_time, "ms")
         explore = result[1]
@@ -79,17 +90,15 @@ def solve():
             if parent[key][1] > maxDepth:
                 maxDepth = parent[key][1]
 
-        label = tk.Label(window, text=f"Cost of this solution is : {n}\n"
+        stats.config(text=f"Cost of this solution is : {n}\n"
                                       f"Depth of the search is : {maxDepth}\n"
                                       f"Number of explored nodes: {explore}", font=("Arial", 15)
                          ,bg= "white")
-        label.pack()
-
-        ans_frame = tk.Frame(window, borderwidth=2, relief="solid", bg="red")
+        stats.pack()
         ans_frame.pack(pady=10)
         answer = []
         for i in range(9):
-            label = tk.Label(ans_frame, text=f"{grid[i]}",width=4, height=2, font=("Arial", 25)
+            label = tk.Label(ans_frame, text=f"{grid[i]}",width=4, height=2, font=("Arial", 20)
                              , borderwidth=4 , relief="solid")
             answer.append(label)
             label.grid(row=i // 3, column=i % 3)
@@ -99,15 +108,12 @@ def solve():
         stack2 = deque()
         while state != grid:
             state = parent[state][0]
-            #print(state)
             stack.append(state)
         for i in range(9):
             answer[i].config(text=grid[i])
-        button1 = tk.Button(window, text="Next", font=("Arial", 12))
-        button1.pack(pady = 10)
-        button2 = tk.Button(window, text ="Back", font=("Arial", 12))
-        button2.pack()
 
+        button1.pack(pady = 10)
+        button2.pack()
         button1.config(command=lambda: printNext(stack, stack2, answer))
         button2.config(command=lambda: printBack(stack, stack2, answer))
 
