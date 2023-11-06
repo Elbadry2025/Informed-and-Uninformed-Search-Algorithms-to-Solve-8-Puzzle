@@ -73,6 +73,7 @@ def A_Star(initial_state, heuristic):
     Parent_map = {initial_state: (initial_state, 0)}
     frontier.put((0+heur.distance(initial_state), initial_state))
     f_frontier.add(initial_state)
+    maxDepth = 0
     while frontier.qsize() > 0:
         state = frontier.get()
         if state[1] in explored:
@@ -81,12 +82,13 @@ def A_Star(initial_state, heuristic):
 
         explored.add(state[1])
         if state[1] == goal:
-            return Parent_map, len(explored)
+            return Parent_map, len(explored), maxDepth
 
         neighbours = main.get_neighbors(state[1])
 
         for i in neighbours:
             if not (i in explored) and not (i in f_frontier):
+                maxDepth = max(maxDepth,Parent_map[state[1]][1]+1)
                 frontier.put((Parent_map[state[1]][1]+1+heur.distance(i), i))
                 f_frontier.add(i)
                 Parent_map[i] = (state[1], Parent_map[state[1]][1]+1)
@@ -95,5 +97,6 @@ def A_Star(initial_state, heuristic):
                     Parent_map[i] = (state[1], Parent_map[state[1]][1]+1)
                     frontier.put((Parent_map[state[1]][1]+1+heur.distance(i), i))
                     f_frontier.add(i)
+
     return False
 

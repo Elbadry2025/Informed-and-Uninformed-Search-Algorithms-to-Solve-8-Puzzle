@@ -91,10 +91,11 @@ def solve():
         parent = result[0]
         state = "012345678"
         n = parent[state][1]
-        maxDepth = 0
-        for key in parent:
-            if parent[key][1] > maxDepth:
-                maxDepth = parent[key][1]
+        maxDepth = result[2]
+
+        # for key in parent:
+        #     if parent[key][1] > maxDepth:
+        #         maxDepth = parent[key][1]
 
         stats.config(text=f"Cost of this solution is : {n}\n"
                                       f"Depth of the search is : {maxDepth}\n"
